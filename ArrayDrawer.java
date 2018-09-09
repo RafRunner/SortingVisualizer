@@ -27,7 +27,7 @@ public class ArrayDrawer extends JPanel {
 		this.height = height;
 		this.barWidth = barWidth;
 		slope = (int) (barWidth/2.5);
-		this.numberOfBars = width / barWidth - (int) (barWidth/5);
+		this.numberOfBars = width / barWidth - (int) (barWidth/10);
 		this.barColor = barColor;
 		this.margin = margin;
 		
@@ -54,10 +54,10 @@ public class ArrayDrawer extends JPanel {
 	
 	public void addRecolor(int indexB, int indexE, Color color)
 	{
-		recolorList.addColor(indexB, indexE, color);
+			recolorList.addColor(indexB, indexE, color);
 	}
 	
-	public void clear()
+	public void clearColors()
 	{
 		recolorList = new RecolorList();
 	}
@@ -73,21 +73,15 @@ public class ArrayDrawer extends JPanel {
 			int startingY = height - Values[i]*slope - margin;
 			int barHeight = Values[i]*slope + 30;
 			
-			if(!recolorList.isEmpty()) {
-				if(i == recolorList.getIndexB())
-					g2D.setColor(recolorList.getColor());
-				else if(i >= recolorList.getIndexE()) {
-					g2D.setColor(barColor);
-					recolorList.removeColor();
-				}
-			}
-			
-			if(i == numberOfBars - 1) {
-				recolorList.removeColor();
-				g2D.setColor(barColor);
-			}
-			
+			if(!recolorList.isEmpty() && i == recolorList.getIndexB())
+				g2D.setColor(recolorList.getColor());
+		
 			g2D.fillRect(startingX, startingY, barWidth, barHeight);
+			
+			if(!recolorList.isEmpty() && i >= recolorList.getIndexE() - 1) {
+				g2D.setColor(barColor);
+				recolorList.removeColor();
+			}
 		}
 	}
 }

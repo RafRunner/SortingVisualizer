@@ -21,7 +21,7 @@ public class ArrayHandler {
 			panel.redraw();
 			Thread.sleep(interval);
 		}
-		finish(Values.length, panel);
+		panel.redraw();
 	}
 	
 	public static void colorSwap(int indexA, int indexB, ArrayDrawer panel) 
