@@ -3,6 +3,8 @@ package gui;
 import java.awt.Color;
 import java.util.Random;
 
+import javax.swing.JFrame;
+
 public class ArrayHandler {
 
 	private static long interval = MainWindow.INTERVAL;
@@ -18,10 +20,10 @@ public class ArrayHandler {
 			Values[i] = aux;
 			
 			colorSwap(index, i, panel);
-			panel.redraw();
+			panel.repaint();
 			Thread.sleep(interval);
 		}
-		panel.redraw();
+		panel.repaint();
 	}
 	
 	public static void colorSwap(int indexA, int indexB, ArrayDrawer panel) 
@@ -40,9 +42,9 @@ public class ArrayHandler {
 	{
 		for(int i = 0; i < numberOfValues - 1; i++) {
 			panel.addRecolor(0, i + 1, Color.GREEN);
-			panel.redraw();
+			panel.repaint();
 			Thread.sleep(interval);
 		}
-		panel.redraw();
+		panel.repaint();
 	}
 }

@@ -27,7 +27,7 @@ public class ArrayDrawer extends JPanel {
 		this.height = height;
 		this.barWidth = barWidth;
 		slope = (int) (barWidth/2.5);
-		this.numberOfBars = width / barWidth - (int) (barWidth/10);
+		this.numberOfBars = width / barWidth;
 		this.barColor = barColor;
 		this.margin = margin;
 		
@@ -47,14 +47,9 @@ public class ArrayDrawer extends JPanel {
 		return Values;
 	}
 	
-	public void redraw()
-	{
-		this.repaint();
-	}
-	
 	public void addRecolor(int indexB, int indexE, Color color)
 	{
-			recolorList.addColor(indexB, indexE, color);
+		recolorList.addColor(indexB, indexE, color);
 	}
 	
 	public void clearColors()

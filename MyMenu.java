@@ -1,21 +1,32 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 public class MyMenu extends JPanel {
 
 	private JButton BShuffle;
 	private JButton BSort;
-
-	public MyMenu(int width, int heigth) 
+	private JList<String> LAlgorithms;
+	
+	private String[] algorithms = new String[]{ 
+				"Selection Sort", 
+				"Bubble Sort", 
+				"Insertion Sort", 
+				"Merge Sort", 
+				"Quick Sort", 
+				"Heap Sort" };
+	
+	public MyMenu(MainWindow window) 
 	{
 		JLabel[] spaces = new JLabel[6];
 		
@@ -25,7 +36,13 @@ public class MyMenu extends JPanel {
 		BShuffle = new JButton("Shuffle");
 		BSort = new JButton("Sort");
 		
-		this.setVisible(true);
+		BShuffle.addActionListener(window);
+		BSort.addActionListener(window);
+		
+		LAlgorithms = new JList<String>(algorithms);
+		
+		LAlgorithms.setSelectedIndex(ListSelectionModel.SINGLE_SELECTION);
+		LAlgorithms.setBorder(BorderFactory.createBevelBorder(1));
 		
 		this.setBorder(BorderFactory.createTitledBorder("Menu"));
 		this.setLayout(new GridBagLayout());
@@ -37,27 +54,52 @@ public class MyMenu extends JPanel {
 		gb.weightx = 1;
 		gb.weighty = 1;
 		
-		gb.gridx = 0;
-		gb.gridy = 0;
+		int i = 0, j = 0;
+		
+		gb.gridx = i++;
+		gb.gridy = j++;
 		this.add(spaces[0], gb);
 		
 		gb.weightx = 0.3;
 		gb.weighty = 0.3;
 		
-		gb.gridx = 1;
-		gb.gridy = 1;
+		gb.gridx = i;
+		gb.gridy = j++;
 		this.add(BShuffle, gb);
 		
-		gb.gridx = 1;
-		gb.gridy = 2;
+		gb.gridx = i;
+		gb.gridy = j++;
+		this.add(LAlgorithms, gb);
+		
+		gb.gridx = i++;
+		gb.gridy = j++;
 		this.add(BSort, gb);
 		
 		gb.weightx = 1;
 		gb.weighty = 1;
 		
-		gb.gridx = 2;
-		gb.gridy = 3;
+		gb.gridx = i;
+		gb.gridy = j;
 		this.add(spaces[1], gb);
 	}
 
+	public JButton getBShuffle() 
+	{
+		return BShuffle;
+	}
+
+	public JButton getBSort() 
+	{
+		return BSort;
+	}
+
+	public JList<String> getLAlgorithms() 
+	{
+		return LAlgorithms;
+	}
+
+	public String[] getAlgorithms() 
+	{
+		return algorithms;
+	}
 }
