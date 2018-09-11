@@ -2,21 +2,39 @@ package gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 
 public class MyMenu extends JPanel {
 
-	private JButton BShuffle;
-	private JButton BSort;
-	private JList<String> LAlgorithms;
+	private JButton bSort;
+	private JComboBox<String> cNumberOfBars;
+	private JComboBox<Integer>cIntervals;
+	private JComboBox<String> cAlgorithms;
+	private JLabel lNumberOfBars;
+	private JLabel lIntervals;
+	private JLabel lAlgorithms;
+	
+	private String[] numberOfBars = new String[] {
+			"Very Low",
+			"Low", 
+			"Moderate",
+			"High",
+			"Very High" };
+	
+	private int[] intervals = new int[] {
+			8,
+			10,
+			15,
+			20,
+			30,
+			50,
+			100 };
 	
 	private String[] algorithms = new String[]{ 
 				"Selection Sort", 
@@ -33,16 +51,24 @@ public class MyMenu extends JPanel {
 		for(int i = 0; i < spaces.length; i++)
 			spaces[i] = new JLabel("");
 		
-		BShuffle = new JButton("Shuffle");
-		BSort = new JButton("Sort");
+		bSort = new JButton("Sort");
+		bSort.addActionListener(window);
 		
-		BShuffle.addActionListener(window);
-		BSort.addActionListener(window);
+		cNumberOfBars = new JComboBox<String>(numberOfBars);
+		cNumberOfBars.setBorder(BorderFactory.createBevelBorder(1));
+		cNumberOfBars.setSelectedItem("High");
+		lNumberOfBars = new JLabel("Number of values:");
 		
-		LAlgorithms = new JList<String>(algorithms);
+		cIntervals = new JComboBox<Integer>();
+		cIntervals.setBorder(BorderFactory.createBevelBorder(1));
+		for(int i : intervals)
+			cIntervals.addItem(i);
+		cIntervals.setSelectedItem(10);
+		lIntervals = new JLabel("Interval (in milliseconds):");
 		
-		LAlgorithms.setSelectedIndex(ListSelectionModel.SINGLE_SELECTION);
-		LAlgorithms.setBorder(BorderFactory.createBevelBorder(1));
+		cAlgorithms = new JComboBox<String>(algorithms);
+		cAlgorithms.setBorder(BorderFactory.createBevelBorder(1));
+		lAlgorithms = new JLabel("Algorithm:");
 		
 		this.setBorder(BorderFactory.createTitledBorder("Menu"));
 		this.setLayout(new GridBagLayout());
@@ -63,17 +89,37 @@ public class MyMenu extends JPanel {
 		gb.weightx = 0.3;
 		gb.weighty = 0.3;
 		
-		gb.gridx = i;
-		gb.gridy = j++;
-		this.add(BShuffle, gb);
+		gb.weighty = 0.1;
 		
 		gb.gridx = i;
 		gb.gridy = j++;
-		this.add(LAlgorithms, gb);
+		this.add(lNumberOfBars, gb);
+		
+		gb.gridx = i;
+		gb.gridy = j++;
+		this.add(cNumberOfBars, gb);
+		
+		gb.gridx = i;
+		gb.gridy = j++;
+		this.add(lIntervals, gb);
+		
+		gb.gridx = i;
+		gb.gridy = j++;
+		this.add(cIntervals, gb);
+		
+		gb.gridx = i;
+		gb.gridy = j++;
+		this.add(lAlgorithms, gb);
+		
+		gb.gridx = i;
+		gb.gridy = j++;
+		this.add(cAlgorithms, gb);
+		
+		gb.weighty = 0.3;
 		
 		gb.gridx = i++;
 		gb.gridy = j++;
-		this.add(BSort, gb);
+		this.add(bSort, gb);
 		
 		gb.weightx = 1;
 		gb.weighty = 1;
@@ -83,19 +129,43 @@ public class MyMenu extends JPanel {
 		this.add(spaces[1], gb);
 	}
 
-	public JButton getBShuffle() 
+	public JButton getbSort() 
 	{
-		return BShuffle;
+		return bSort;
+	}
+	
+	public int getBarWidth()
+	{
+		switch(cNumberOfBars.getSelectedItem().toString()) {
+		
+		case "Very Low":
+			return 20;
+			
+		case "Low":
+			return 15;
+			
+		case "Moderate":
+			return 10;
+			
+		case "High":
+			return 5;
+			
+		case "Very High":
+			return 3;
+			
+		default:
+			return 5;
+		}
+	}
+	
+	public int getInterval()
+	{
+		return (int) cIntervals.getSelectedItem();
 	}
 
-	public JButton getBSort() 
+	public String getSelectedAlgorithm() 
 	{
-		return BSort;
-	}
-
-	public JList<String> getLAlgorithms() 
-	{
-		return LAlgorithms;
+		return cAlgorithms.getSelectedItem().toString();
 	}
 
 	public String[] getAlgorithms() 
