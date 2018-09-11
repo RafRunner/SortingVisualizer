@@ -3,21 +3,22 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JFrame;
 
 public class MainWindow implements ActionListener {
     
-    private static final int WIDTH = 1600;
-    private static final int HEIGHT = 800;
-    private static final int BAR_WIDTH = 5;
+    private static final int WIDTH = 1650;
+    private static final int HEIGHT = 830;
     private static final Color BAR_COLOR = Color.WHITE;
     private static final int MARGIN = 50;
-    public static final long INTERVAL = 10;
 
+    private static int barWidth = 15;
+    private static int interval = 10;    
+    
     private JFrame window;
     private ArrayDrawer panel;
     private MyMenu menu;
@@ -27,7 +28,7 @@ public class MainWindow implements ActionListener {
     	window = new JFrame();
     	window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	window.setTitle("Sorting Visualiser");
-    	window.setLocation(150, 100);
+    	window.setLocation(125, 85);
     	window.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     	window.setLayout(null);
     	window.setResizable(false);
@@ -36,7 +37,10 @@ public class MainWindow implements ActionListener {
     	menu.setBounds((int) (0.33*WIDTH), (int) (0.2*HEIGHT), (int) (0.33*WIDTH), (int) (0.6*HEIGHT));
     	menu.setVisible(false);
 
-    	panel = new ArrayDrawer(WIDTH, HEIGHT, MARGIN, BAR_WIDTH, BAR_COLOR);
+    	interval = menu.getInterval();
+    	barWidth = menu.getBarWidth();
+    	
+    	panel = new ArrayDrawer(WIDTH, HEIGHT, MARGIN, barWidth, BAR_COLOR);
     	panel.setLayout(null);
     	panel.add(menu, BorderLayout.CENTER);
     	
@@ -50,9 +54,9 @@ public class MainWindow implements ActionListener {
     	return panel;
     }
     
-    public JFrame getWindow()
+    public static int getInterval()
     {
-    	return window;
+    	return interval;
     }
     
     public void showMenu()
@@ -71,34 +75,59 @@ public class MainWindow implements ActionListener {
     
     @Override
 	public void actionPerformed(ActionEvent e) 
-	{
-		if(e.getSource() == menu.getBShuffle()) {
+	{	
+		if(e.getSource() == menu.getbSort()) {
+			
 			new Thread() {
-				public void run() 
-				{
-					try {
-						hideMenu();
-						Thread.sleep(100);
-						ArrayHandler.shuffle(panel.getValues(), panel);
-						showMenu();
+			public void run() 
+			{
+				try {
+					interval = menu.getInterval();
+					panel.setBarWidth(menu.getBarWidth());
+					hideMenu();
+					ArrayHandler.shuffle(panel.getValues(), panel);
+					Thread.sleep(500);
 					
-					} catch (InterruptedException e1) {
-					e1.printStackTrace();
-					}
+					switch (menu.getSelectedAlgorithm()){
+			
+					case "Selection Sort":
+						ArrayHandler.selectionSort(panel.getValues(), panel);
+					break;
+					
+					case "Bubble Sort":
+						ArrayHandler.bubbleSort(panel.getValues(), panel);
+					break;
+					
+					case "Insertion Sort":
+						ArrayHandler.insertionSort(panel.getValues(), panel);
+					break;
+				
+					case "Merge Sort":
+						ArrayHandler.mergeSort(panel.getValues(), 0, panel.getValues().length - 1, panel);
+						ArrayHandler.finish(panel.getValues().length, panel);
+					break;
+					
+					case "Quick Sort":
+						ArrayHandler.quickSort(panel.getValues(), 0, panel.getValues().length - 1, panel);
+						ArrayHandler.finish(panel.getValues().length, panel);
+					break;
+					
+					case "Heap Sort":
+						ArrayHandler.heapSort(panel.getValues(), panel);
+					break;
 				}
-			}.start();
-		}
-		
-		if(e.getSource() == menu.getBSort()) {
-			System.out.println("Algorithm choosen: " + menu.getAlgorithms()[menu.getLAlgorithms().getSelectedIndex()]);
-		}
+					showMenu();
+					
+				} catch(InterruptedException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+		}.start();
 	}
-    
-    public static void main(String[] args) throws InterruptedException
+	}
+		
+    public static void main(String[] args) throws InterruptedException, LineUnavailableException
     {
-    	MainWindow window = new MainWindow();
-    	ArrayDrawer panel = window.getPanel();
-    	ArrayHandler.shuffle(panel.getValues(), panel);
-    	window.showMenu();
+    	new MainWindow().showMenu();
     }
 }
