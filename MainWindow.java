@@ -115,6 +115,14 @@ public class MainWindow implements ActionListener {
 					case "Heap Sort":
 						ArrayHandler.heapSort(panel.getValues(), panel);
 					break;
+					
+					case "Radix Sort":
+						ArrayHandler.radixSort(panel.getValues(), panel.getValues().length, panel);
+					break;
+					
+					case "Shell Sort":
+						ArrayHandler.shellSort(panel.getValues(), panel);
+					break;
 				}
 					showMenu();
 					

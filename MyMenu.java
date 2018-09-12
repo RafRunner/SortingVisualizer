@@ -42,7 +42,9 @@ public class MyMenu extends JPanel {
 				"Insertion Sort", 
 				"Merge Sort", 
 				"Quick Sort", 
-				"Heap Sort" };
+				"Heap Sort",
+				"Radix Sort",
+				"Shell Sort" };
 	
 	public MyMenu(MainWindow window) 
 	{
