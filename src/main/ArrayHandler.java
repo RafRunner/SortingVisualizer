@@ -300,17 +300,20 @@ public class ArrayHandler {
 	 
 	 public static void radixSort(int[] Values, int n, ArrayDrawer panel) throws InterruptedException
 	    {
-		 interval = MainWindow.getInterval();
-	        int m = getMax(Values, n);
-	        for (int exp = 1; m/exp > 0; exp *= 10)
-	            countSort(Values, n, exp, panel);
-	        
-	        finish(Values.length, panel);
-	        panel.repaint();
+			interval = MainWindow.getInterval();
+			int m = getMax(Values, n);
+
+			for (int exp = 1; m/exp > 0; exp *= 10) {
+				countSort(Values, n, exp, panel);
+			}
+
+			finish(Values.length, panel);
+			panel.repaint();
 	    }
 	 
 	 public static void shellSort(int[] Values, ArrayDrawer panel) throws InterruptedException
 	    {
+	    	interval = MainWindow.getInterval();
 	        int n = Values.length;
 
 	        for (int gap = n/2; gap > 0; gap /= 2) {

@@ -1,8 +1,6 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,9 +26,8 @@ public class MainWindow implements ActionListener {
     	window = new JFrame();
     	window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
     	window.setTitle("Sorting Visualiser");
-    	window.setLocation(125, 85);
+    	window.setLocationRelativeTo(null);
     	window.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-    	window.setLayout(null);
     	window.setResizable(false);
     	
     	menu = new MyMenu(this);
@@ -78,61 +75,62 @@ public class MainWindow implements ActionListener {
 	{	
 		if(e.getSource() == menu.getbSort()) {
 
-			new Thread(() -> {
+			new Thread() {
+				public void run() {
+					int numberOfValues = panel.getValues().length;
+					String selectedAlgotiyhm = menu.getSelectedAlgorithm();
 
-				int[] values = panel.getValues();
-				int numberOfValues = values.length;
-				String selectedAlgotiyhm = menu.getSelectedAlgorithm();
-				interval = menu.getInterval();
+					try {
+						panel.setBarWidth(menu.getBarWidth());
+						hideMenu();
+						ArrayHandler.shuffle(panel.getValues(), panel);
+						interval = menu.getInterval();
+						Thread.sleep(500);
 
-				try {
-					panel.setBarWidth(menu.getBarWidth());
-					hideMenu();
-					ArrayHandler.shuffle(values, panel);
-					Thread.sleep(500);
+						switch (selectedAlgotiyhm){
 
-					switch (selectedAlgotiyhm){
+							case "Selection Sort":
+								ArrayHandler.selectionSort(panel.getValues(), panel);
+								break;
 
-					case "Selection Sort":
-						ArrayHandler.selectionSort(values, panel);
-					break;
+							case "Bubble Sort":
+								ArrayHandler.bubbleSort(panel.getValues(), panel);
+								break;
 
-					case "Bubble Sort":
-						ArrayHandler.bubbleSort(values, panel);
-					break;
+							case "Insertion Sort":
+								ArrayHandler.insertionSort(panel.getValues(), panel);
+								break;
 
-					case "Insertion Sort":
-						ArrayHandler.insertionSort(values, panel);
-					break;
+							case "Merge Sort":
+								ArrayHandler.mergeSort(panel.getValues(), 0, numberOfValues - 1, panel);
+								ArrayHandler.finish(numberOfValues, panel);
+								break;
 
-					case "Merge Sort":
-						ArrayHandler.mergeSort(values, 0, numberOfValues - 1, panel);
-						ArrayHandler.finish(numberOfValues, panel);
-					break;
+							case "Quick Sort":
+								ArrayHandler.quickSort(panel.getValues(), 0, numberOfValues - 1, panel);
+								ArrayHandler.finish(numberOfValues, panel);
+								break;
 
-					case "Quick Sort":
-						ArrayHandler.quickSort(values, 0, numberOfValues - 1, panel);
-						ArrayHandler.finish(numberOfValues, panel);
-					break;
+							case "Heap Sort":
+								ArrayHandler.heapSort(panel.getValues(), panel);
+								break;
 
-					case "Heap Sort":
-						ArrayHandler.heapSort(values, panel);
-					break;
+							case "Radix Sort":
+								ArrayHandler.radixSort(panel.getValues(), numberOfValues, panel);
+								break;
 
-					case "Radix Sort":
-						ArrayHandler.radixSort(values, numberOfValues, panel);
-					break;
+							case "Shell Sort":
+								ArrayHandler.shellSort(panel.getValues(), panel);
+								break;
+						}
+						showMenu();
 
-					case "Shell Sort":
-						ArrayHandler.shellSort(values, panel);
-					break;
+					} catch(InterruptedException e1) {
+						System.out.println(e1.getMessage());
+					}
 				}
-					showMenu();
 
-				} catch(InterruptedException e1) {
-					System.out.println(e1.getMessage());
-				}
-			}).start();
+			}.start();
 	}
 	}
 		

@@ -50,25 +50,27 @@ public class MyMenu extends JPanel {
 	{
 		JLabel[] spaces = new JLabel[6];
 		
-		for(int i = 0; i < spaces.length; i++)
+		for(int i = 0; i < spaces.length; i++) {
 			spaces[i] = new JLabel("");
-		
+		}
+
 		bSort = new JButton("Sort");
 		bSort.addActionListener(window);
 		
-		cNumberOfBars = new JComboBox<String>(numberOfBars);
+		cNumberOfBars = new JComboBox<>(numberOfBars);
 		cNumberOfBars.setBorder(BorderFactory.createBevelBorder(1));
 		cNumberOfBars.setSelectedItem("High");
 		lNumberOfBars = new JLabel("Number of values:");
 		
-		cIntervals = new JComboBox<Integer>();
+		cIntervals = new JComboBox<>();
 		cIntervals.setBorder(BorderFactory.createBevelBorder(1));
-		for(int i : intervals)
+		for(int i : intervals) {
 			cIntervals.addItem(i);
+		}
 		cIntervals.setSelectedItem(10);
 		lIntervals = new JLabel("Interval (in milliseconds):");
 		
-		cAlgorithms = new JComboBox<String>(algorithms);
+		cAlgorithms = new JComboBox<>(algorithms);
 		cAlgorithms.setBorder(BorderFactory.createBevelBorder(1));
 		lAlgorithms = new JLabel("Algorithm:");
 		
