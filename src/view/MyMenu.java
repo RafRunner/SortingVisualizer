@@ -1,7 +1,11 @@
-package main;
+package view;
+
+import enuns.ESortingAlgorithm;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Arrays;
+import java.util.Optional;
 
 
 import javax.swing.BorderFactory;
@@ -35,18 +39,8 @@ public class MyMenu extends JPanel {
 			30,
 			50,
 			100 };
-	
-	private String[] algorithms = new String[]{ 
-				"Selection Sort", 
-				"Bubble Sort", 
-				"Insertion Sort", 
-				"Merge Sort", 
-				"Quick Sort", 
-				"Heap Sort",
-				"Radix Sort",
-				"Shell Sort" };
-	
-	public MyMenu(MainWindow window) 
+
+	public MyMenu(MainWindow window)
 	{
 		JLabel[] spaces = new JLabel[6];
 		
@@ -69,10 +63,12 @@ public class MyMenu extends JPanel {
 		}
 		cIntervals.setSelectedItem(10);
 		lIntervals = new JLabel("Interval (in milliseconds):");
-		
-		cAlgorithms = new JComboBox<>(algorithms);
+
+		cAlgorithms = new JComboBox<>();
 		cAlgorithms.setBorder(BorderFactory.createBevelBorder(1));
 		lAlgorithms = new JLabel("Algorithm:");
+
+        Arrays.stream(ESortingAlgorithm.values()).forEach(sortingAlgorithm -> cAlgorithms.addItem(sortingAlgorithm.name));
 		
 		this.setBorder(BorderFactory.createTitledBorder("Menu"));
 		this.setLayout(new GridBagLayout());
@@ -167,13 +163,13 @@ public class MyMenu extends JPanel {
 		return (int) cIntervals.getSelectedItem();
 	}
 
-	public String getSelectedAlgorithm() 
+	public ESortingAlgorithm getSelectedAlgorithm()
 	{
-		return cAlgorithms.getSelectedItem().toString();
-	}
+		final Object algorithmName = cAlgorithms.getSelectedItem();
+		if (algorithmName == null) {
+		    return null;
+        }
 
-	public String[] getAlgorithms() 
-	{
-		return algorithms;
-	}
+        return Arrays.stream(ESortingAlgorithm.values()).filter(sortingAlgorithm -> sortingAlgorithm.name.equals(algorithmName.toString())).findFirst().orElse(null);
+    }
 }

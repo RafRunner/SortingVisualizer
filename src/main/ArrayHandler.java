@@ -1,5 +1,8 @@
 package main;
 
+import view.ArrayDrawer;
+import view.MainWindow;
+
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.Random;
@@ -194,7 +197,7 @@ public class ArrayHandler {
 				panel.repaint();
 				Thread.sleep(interval);
             } 
-        } 
+        }
         int temp = arr[i+1]; 
         arr[i+1] = arr[high]; 
         arr[high] = temp; 
