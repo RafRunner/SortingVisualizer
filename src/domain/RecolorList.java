@@ -15,7 +15,7 @@ public class RecolorList {
         colors = new ArrayList<>();
     }
 
-    public void addColor(int indexB, int indexE, Color color) {
+    public void addColor(final int indexB, final int indexE, final Color color) {
         indexesB.add(indexB);
         indexesE.add(indexE);
         colors.add(color);

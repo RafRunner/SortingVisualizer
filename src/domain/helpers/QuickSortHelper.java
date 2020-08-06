@@ -11,7 +11,7 @@ public class QuickSortHelper {
 
     public static void quickSort(int[] array, int start, int end, final List<ArrayOperation> operations) {
         if (start < end) {
-            int pivot = partition(array, end, end, operations);
+            int pivot = partition(array, start, end, operations);
 
             quickSort(array, start, pivot - 1, operations);
             quickSort(array, pivot + 1, end, operations);

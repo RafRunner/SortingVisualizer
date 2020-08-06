@@ -40,8 +40,10 @@ public enum ESortingAlgorithm {
 
         int i, j, temp;
         boolean swapped;
+
         for (i = 0; i < array.length - 1; i++) {
             swapped = false;
+
             for (j = 0; j < array.length - i - 1; j++) {
                 operations.add(new CompareElements(j, j + 1));
 
@@ -148,7 +150,7 @@ public enum ESortingAlgorithm {
                 int j;
                 for (j = i; j >= gap; j -= gap) {
                     operations.add(new CompareElements(i, j - gap));
-                    if (array[j - gap] > temp)
+                    if (array[j - gap] < temp)
                         break;
 
                     operations.add(new SwapElements(j, j - gap));

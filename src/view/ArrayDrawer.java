@@ -23,7 +23,7 @@ public class ArrayDrawer extends JPanel {
 
     private Color barColor;
 
-    public ArrayDrawer(int width, int height, int margin, int barWidth, Color barColor) {
+    ArrayDrawer(final int width, final int height, final int margin, final int barWidth, final Color barColor) {
         this.width = width;
         this.height = height;
         this.barColor = barColor;
@@ -42,11 +42,11 @@ public class ArrayDrawer extends JPanel {
             values[i] = i + 1;
     }
 
-    public int[] getValues() {
+    int[] getValues() {
         return values;
     }
 
-    public void setBarWidth(int barWidth) {
+    void setBarWidth(final int barWidth) {
         this.barWidth = barWidth;
         numberOfBars = width / barWidth;
         slope = (int) (barWidth / 2.5);
@@ -56,11 +56,11 @@ public class ArrayDrawer extends JPanel {
             values[i] = i + 1;
     }
 
-    public void addRecolor(int indexB, int indexE, Color color) {
+    void addRecolor(int indexB, int indexE, Color color) {
         recolorList.addColor(indexB, indexE, color);
     }
 
-    public void clearColors() {
+    void clearColors() {
         recolorList = new RecolorList();
     }
 

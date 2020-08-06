@@ -2,7 +2,7 @@ package domain.helpers;
 
 import domain.ArrayOperation;
 import domain.CompareElements;
-import domain.SwapElements;
+import domain.OverrideValue;
 
 import java.util.List;
 
@@ -22,12 +22,10 @@ public class MergeSortHelper {
     private static void merge(int[] array, int start, int middle, int end, final List<ArrayOperation> operations) {
         int range = end - start + 1;
         int[] merged = new int[range];
-        int mergedIndex = 0;
         int leftIndex = start;
         int rightIndex = middle + 1;
 
-        int i;
-        for (i = 0; i < range; i++, mergedIndex++) {
+        for (int mergedIndex = 0; mergedIndex < range; mergedIndex++) {
 
             operations.add(new CompareElements(leftIndex, middle));
             if (leftIndex > middle) {
@@ -51,8 +49,8 @@ public class MergeSortHelper {
             }
         }
 
-        for (i = 0; i < range; i++) {
-            operations.add(new SwapElements(i + start, i));
+        for (int i = 0; i < range; i++) {
+            operations.add(new OverrideValue(i + start, merged[i]));
             array[i + start] = merged[i];
         }
     }

@@ -2,19 +2,19 @@ package domain;
 
 public class ArrayOperation {
 
-    private int mainIndex;
-    private int secondaryIndex;
+    private final int index;
+    private final int secondaryValue;
 
-    protected ArrayOperation(int mainIndex, int secondaryIndex) {
-        this.mainIndex = mainIndex;
-        this.secondaryIndex = secondaryIndex;
+    protected ArrayOperation(final int index, final int secondaryValue) {
+        this.index = index;
+        this.secondaryValue = secondaryValue;
     }
 
-    public int getMainIndex() {
-        return mainIndex;
+    public int getIndex() {
+        return index;
     }
 
-    public int getSecondaryIndex() {
-        return secondaryIndex;
+    public int getSecondaryValue() {
+        return secondaryValue;
     }
 }

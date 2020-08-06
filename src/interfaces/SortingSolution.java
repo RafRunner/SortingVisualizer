@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SortingSolution {
 
-    public abstract List<ArrayOperation> getSortingSteps(int[] array);
+    List<ArrayOperation> getSortingSteps(int[] array);
 }
