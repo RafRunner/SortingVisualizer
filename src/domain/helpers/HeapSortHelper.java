@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HeapSortHelper {
 
-    public static void heapify(int[] array, int n, int i, final List<ArrayOperation> operations) {
+    public static void heapify(final int[] array, final int n, final int i, final List<ArrayOperation> operations) {
         int largest = i;
         int l = 2*i + 1;
         int r = 2*i + 2;

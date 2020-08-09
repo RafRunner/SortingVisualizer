@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MergeSortHelper {
 
-    public static void mergeSort(int[] array, int start, int end, final List<ArrayOperation> operations) {
+    public static void mergeSort(final int[] array, final int start, final int end, final List<ArrayOperation> operations) {
         if (end - start < 1)
             return;
 
@@ -19,7 +19,7 @@ public class MergeSortHelper {
         merge(array, start, middle, end, operations);
     }
 
-    private static void merge(int[] array, int start, int middle, int end, final List<ArrayOperation> operations) {
+    private static void merge(final int[] array, final int start, final int middle, final int end, final List<ArrayOperation> operations) {
         int range = end - start + 1;
         int[] merged = new int[range];
         int leftIndex = start;

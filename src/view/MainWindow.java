@@ -1,8 +1,6 @@
 package view;
 
 import domain.ArrayOperation;
-import domain.CompareElements;
-import domain.OverrideValue;
 import domain.helpers.ShuffleHelper;
 import enuns.ESortingAlgorithm;
 
@@ -21,7 +19,7 @@ public class MainWindow implements ActionListener {
     private static final int MARGIN = 50;
 
     private JFrame window;
-    private ArrayDrawer panel;
+    private ArrayDrawer arrayDrawerPanel;
     private MyMenu menu;
 
     public MainWindow() {
@@ -36,11 +34,11 @@ public class MainWindow implements ActionListener {
         menu.setBounds((int) (0.33 * WIDTH), (int) (0.2 * HEIGHT), (int) (0.33 * WIDTH), (int) (0.6 * HEIGHT));
         menu.setVisible(false);
 
-        panel = new ArrayDrawer(WIDTH, HEIGHT, MARGIN, menu.getBarWidth(), BAR_COLOR);
-        panel.setLayout(null);
-        panel.add(menu, BorderLayout.CENTER);
+        arrayDrawerPanel = new ArrayDrawer(WIDTH, HEIGHT, MARGIN, menu.getBarWidth(), BAR_COLOR);
+        arrayDrawerPanel.setLayout(null);
+        arrayDrawerPanel.add(menu, BorderLayout.CENTER);
 
-        window.add(panel, BorderLayout.CENTER);
+        window.add(arrayDrawerPanel, BorderLayout.CENTER);
         window.pack();
         window.setVisible(true);
     }
@@ -48,56 +46,13 @@ public class MainWindow implements ActionListener {
     public void showMenu() {
         menu.setVisible(true);
         window.pack();
-        panel.repaint();
+        arrayDrawerPanel.repaint();
     }
 
     private void hideMenu() {
         menu.setVisible(false);
         window.pack();
-        panel.repaint();
-    }
-
-    private static void colorSwap(final int indexA, final int indexB, final Color color, final ArrayDrawer panel) {
-        panel.addRecolor(indexA, indexA, color);
-        panel.addRecolor(indexB, indexB, color);
-    }
-
-    private static void performOperations(final List<ArrayOperation> operations, final int[] array, final int interval, final ArrayDrawer panel) throws InterruptedException {
-        for (final ArrayOperation operation : operations) {
-
-            final int indexA = operation.getIndex();
-            final int indexB = operation.getSecondaryValue();
-
-            if (operation instanceof CompareElements)  {
-                // colorSwap(indexA, indexA, Color.YELLOW, panel);
-                continue;
-            }
-            else if (operation instanceof OverrideValue) {
-                colorSwap(indexA, indexA, Color.RED, panel);
-                array[indexA] = indexB;
-            }
-            else {
-                colorSwap(indexA, indexB, Color.RED, panel);
-                final int temp = array[indexA];
-                array[indexA] = array[indexB];
-                array[indexB] = temp;
-            }
-
-            panel.repaint();
-            Thread.sleep(interval);
-        }
-        panel.clearColors();
-    }
-
-    private static void finish(final int numberOfValues, final ArrayDrawer panel) throws InterruptedException
-    {
-        for(int i = 0; i < numberOfValues - 1; i++) {
-            panel.addRecolor(0, i + 1, Color.GREEN);
-            panel.repaint();
-            Thread.sleep(8);
-        }
-        panel.clearColors();
-        panel.repaint();
+        arrayDrawerPanel.repaint();
     }
 
     @Override
@@ -106,18 +61,18 @@ public class MainWindow implements ActionListener {
 
             new Thread(() -> {
                 try {
-                    panel.setBarWidth(menu.getBarWidth());
+                    arrayDrawerPanel.setBarWidth(menu.getBarWidth());
                     hideMenu();
 
                     final ESortingAlgorithm selectedAlgotiyhm = menu.getSelectedAlgorithm();
-                    final List<ArrayOperation> shuffleOperations = ShuffleHelper.shuffle(panel.getValues().clone());
-                    performOperations(shuffleOperations, panel.getValues(), 8, panel);
+                    final List<ArrayOperation> shuffleOperations = ShuffleHelper.shuffle(arrayDrawerPanel.getValues().clone());
+                    arrayDrawerPanel.performOperations(shuffleOperations, arrayDrawerPanel.getValues(), 8);
 
                     Thread.sleep(500);
 
-                    final List<ArrayOperation> operations = selectedAlgotiyhm.sortingSolution.getSortingSteps(panel.getValues().clone());
-                    performOperations(operations, panel.getValues(), menu.getInterval(), panel);
-                    finish(panel.getValues().length, panel);
+                    final List<ArrayOperation> operations = selectedAlgotiyhm.sortingSolution.getSortingSteps(arrayDrawerPanel.getValues().clone());
+                    arrayDrawerPanel.performOperations(operations, arrayDrawerPanel.getValues(), menu.getInterval());
+                    arrayDrawerPanel.finish(arrayDrawerPanel.getValues().length);
 
                     showMenu();
                 } catch (InterruptedException e1) {

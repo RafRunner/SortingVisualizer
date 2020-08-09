@@ -89,24 +89,20 @@ public enum ESortingAlgorithm {
 
     MergeSort("Merge Sort", array -> {
         final List<ArrayOperation> operations = new ArrayList<>();
-
         MergeSortHelper.mergeSort(array, 0, array.length - 1, operations);
-
         return operations;
     }),
 
     QuickSort("Quick Sort", array -> {
         final List<ArrayOperation> operations = new ArrayList<>();
-
         QuickSortHelper.quickSort(array, 0, array.length - 1, operations);
-
         return operations;
     }),
 
     HeapSort("Heap Sort", array -> {
         final List<ArrayOperation> operations = new ArrayList<>();
 
-        int n = array.length;
+        final int n = array.length;
 
         for (int i = n / 2 - 1; i >= 0; i--)
             HeapSortHelper.heapify(array, n, i, operations);
@@ -117,7 +113,6 @@ public enum ESortingAlgorithm {
             int temp = array[0];
             array[0] = array[i];
             array[i] = temp;
-
 
             HeapSortHelper.heapify(array, i, 0, operations);
         }
@@ -140,7 +135,7 @@ public enum ESortingAlgorithm {
     ShellSort("Shell Sort", array -> {
         final List<ArrayOperation> operations = new ArrayList<>();
 
-        int n = array.length;
+        final int n = array.length;
 
         for (int gap = n / 2; gap > 0; gap /= 2) {
 

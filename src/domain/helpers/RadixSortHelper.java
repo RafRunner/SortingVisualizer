@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RadixSortHelper {
 
-    public static int getMax(int[] array, final List<ArrayOperation> operations) {
+    public static int getMax(final int[] array, final List<ArrayOperation> operations) {
         int mx = array[0];
         int mxIndex = 0;
         for (int i = 1; i < array.length; i++) {
@@ -25,7 +25,7 @@ public class RadixSortHelper {
         return mx;
     }
 
-    public static void countSort(int[] array, int exp, final List<ArrayOperation> operations) {
+    public static void countSort(final int[] array, final int exp, final List<ArrayOperation> operations) {
         int length = array.length;
         int i;
 

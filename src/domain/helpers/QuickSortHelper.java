@@ -9,7 +9,7 @@ import java.util.List;
 
 public class QuickSortHelper {
 
-    public static void quickSort(int[] array, int start, int end, final List<ArrayOperation> operations) {
+    public static void quickSort(final int[] array, final int start, final int end, final List<ArrayOperation> operations) {
         if (start < end) {
             int pivot = partition(array, start, end, operations);
 
@@ -18,7 +18,7 @@ public class QuickSortHelper {
         }
     }
 
-    private static int partition(int[] array, int low, int high, final List<ArrayOperation> operations) {
+    private static int partition(final int[] array, final int low, final int high, final List<ArrayOperation> operations) {
         int pivot = array[high];
 
         int i = (low - 1);

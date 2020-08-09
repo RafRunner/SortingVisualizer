@@ -60,7 +60,9 @@ class MyMenu extends JPanel {
         cAlgorithms = new JComboBox<>();
         cAlgorithms.setBorder(BorderFactory.createBevelBorder(1));
 
-        Arrays.stream(ESortingAlgorithm.values()).forEach(sortingAlgorithm -> cAlgorithms.addItem(sortingAlgorithm.name));
+        for (ESortingAlgorithm algorithm : ESortingAlgorithm.values()) {
+            cAlgorithms.addItem(algorithm.name);
+        }
 
         final JLabel lNumberOfBars = new JLabel("Number of values:");
         final JLabel lIntervals = new JLabel("Interval (in milliseconds):");
