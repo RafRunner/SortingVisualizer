@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 public class ArrayDrawer extends JPanel {
 
-    private int[] values;
+    private int[] array;
     private int numberOfBars;
     private int barWidth;
     private int width;
@@ -33,22 +33,16 @@ public class ArrayDrawer extends JPanel {
         this.barColor = barColor;
         this.margin = margin;
 
-        setBarWidth(barWidth);
-
         recolorList = new RecolorList();
 
-        this.setBackground(Color.BLACK);
-        this.setVisible(true);
-        this.setSize(width, height);
-
-        values = new int[numberOfBars];
-        for (int i = 0; i < numberOfBars; i++) {
-            values[i] = i + 1;
-        }
+        setBackground(Color.BLACK);
+        setVisible(true);
+        setSize(width, height);
+        setBarWidth(barWidth);
     }
 
-    int[] getValues() {
-        return values;
+    int[] getArrayCopy() {
+        return array.clone();
     }
 
     void setBarWidth(final int barWidth) {
@@ -56,13 +50,13 @@ public class ArrayDrawer extends JPanel {
         numberOfBars = width / barWidth;
         slope = (int) (barWidth / 2.5);
 
-        values = new int[numberOfBars];
+        array = new int[numberOfBars];
         for (int i = 0; i < numberOfBars; i++) {
-            values[i] = i + 1;
+            array[i] = i + 1;
         }
     }
 
-    private void addRecolor(int indexB, int indexE, Color color) {
+    private void addRecolor(final int indexB, final int indexE, final Color color) {
         recolorList.addColor(indexB, indexE, color);
     }
 
@@ -75,7 +69,7 @@ public class ArrayDrawer extends JPanel {
         addRecolor(indexB, indexB, color);
     }
 
-    void performOperations(final List<ArrayOperation> operations, final int[] array, final int interval) throws InterruptedException {
+    void performOperations(final List<ArrayOperation> operations, final int interval) throws InterruptedException {
         for (final ArrayOperation operation : operations) {
 
             final int indexA = operation.getIndex();
@@ -102,8 +96,8 @@ public class ArrayDrawer extends JPanel {
         clearColors();
     }
 
-    void finish(final int numberOfValues) throws InterruptedException {
-        for(int i = 0; i < numberOfValues - 1; i++) {
+    void finish() throws InterruptedException {
+        for(int i = 0; i < array.length - 1; i++) {
             addRecolor(0, i + 1, Color.GREEN);
             repaint();
             Thread.sleep(8);
@@ -115,13 +109,13 @@ public class ArrayDrawer extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2D = (Graphics2D) g;
+        final Graphics2D g2D = (Graphics2D) g;
         g2D.setColor(barColor);
 
         for (int i = 0; i < numberOfBars; i++) {
-            int startingX = i * barWidth;
-            int startingY = height - values[i] * slope - margin;
-            int barHeight = values[i] * slope + 30;
+            final int startingX = i * barWidth;
+            final int startingY = height - array[i] * slope - margin;
+            final int barHeight = array[i] * slope + 30;
 
             if (!recolorList.isEmpty() && i == recolorList.getIndexB()) {
                 g2D.setColor(recolorList.getColor());

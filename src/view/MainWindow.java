@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class MainWindow implements ActionListener {
 
@@ -56,8 +56,8 @@ public class MainWindow implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
-        if (e.getSource() == menu.getbSort()) {
+    public void actionPerformed(final ActionEvent event) {
+        if (event.getSource() == menu.getbSort()) {
 
             new Thread(() -> {
                 try {
@@ -65,18 +65,20 @@ public class MainWindow implements ActionListener {
                     hideMenu();
 
                     final ESortingAlgorithm selectedAlgotiyhm = menu.getSelectedAlgorithm();
-                    final List<ArrayOperation> shuffleOperations = ShuffleHelper.shuffle(arrayDrawerPanel.getValues().clone());
-                    arrayDrawerPanel.performOperations(shuffleOperations, arrayDrawerPanel.getValues(), 8);
+                    final List<ArrayOperation> shuffleOperations = ShuffleHelper.shuffle(arrayDrawerPanel.getArrayCopy());
+                    arrayDrawerPanel.performOperations(shuffleOperations, 8);
 
                     Thread.sleep(500);
 
-                    final List<ArrayOperation> operations = selectedAlgotiyhm.sortingSolution.getSortingSteps(arrayDrawerPanel.getValues().clone());
-                    arrayDrawerPanel.performOperations(operations, arrayDrawerPanel.getValues(), menu.getInterval());
-                    arrayDrawerPanel.finish(arrayDrawerPanel.getValues().length);
+                    final List<ArrayOperation> operations = selectedAlgotiyhm.sortingSolution.getSortingSteps(arrayDrawerPanel.getArrayCopy());
+                    arrayDrawerPanel.performOperations(operations, menu.getInterval());
+                    arrayDrawerPanel.finish();
 
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+
+                } finally {
                     showMenu();
-                } catch (InterruptedException e1) {
-                    System.out.println(e1.getMessage());
                 }
             }).start();
         }
