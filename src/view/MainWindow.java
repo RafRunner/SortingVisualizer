@@ -7,7 +7,7 @@ import enuns.ESortingAlgorithm;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
@@ -71,7 +71,7 @@ public class MainWindow implements ActionListener {
 
                     Thread.sleep(500);
 
-                    final List<ArrayOperation> solvingOperations = new ArrayList<>();
+                    final List<ArrayOperation> solvingOperations = new LinkedList<>();
                     selectedAlgotiyhm.sortingSolution.getSortingSteps(arrayDrawerPanel.getArrayCopy(), solvingOperations);
                     arrayDrawerPanel.performOperations(solvingOperations, menu.getInterval());
                     arrayDrawerPanel.finish();

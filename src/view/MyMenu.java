@@ -19,7 +19,11 @@ class MyMenu extends JPanel {
     private final JComboBox<Integer> cIntervals;
     private final JComboBox<String> cAlgorithms;
 
-	MyMenu(final MainWindow window) {
+    private static final int DEFAULT_INTERVAL = 10;
+    private static final String DEFAULT_BAR_WIDTH = "Moderate";
+    private static final ESortingAlgorithm DEFAULT_ALGORITHM = ESortingAlgorithm.SelectionSort;
+
+    MyMenu(final MainWindow window) {
         final JLabel[] spaces = new JLabel[6];
 
         for (int i = 0; i < spaces.length; i++) {
@@ -29,38 +33,38 @@ class MyMenu extends JPanel {
         bSort = new JButton("Sort");
         bSort.addActionListener(window);
 
-		final String[] numberOfBars = new String[]{
-				"Very Low",
-				"Low",
-				"Moderate",
-				"High",
-				"Very High"};
+        final String[] numberOfBars = new String[]{
+                "Very Low",
+                "Low",
+                "Moderate",
+                "High",
+                "Very High"};
 
-		cNumberOfBars = new JComboBox<>(numberOfBars);
+        cNumberOfBars = new JComboBox<>(numberOfBars);
         cNumberOfBars.setBorder(BorderFactory.createBevelBorder(1));
-        cNumberOfBars.setSelectedItem("Moderate");
+        cNumberOfBars.setSelectedItem(DEFAULT_BAR_WIDTH);
 
         cIntervals = new JComboBox<>();
         cIntervals.setBorder(BorderFactory.createBevelBorder(1));
 
-		final int[] intervals = new int[]{
-				8,
-				10,
-				15,
-				20,
-				30,
-				50,
-				100};
+        final int[] intervals = new int[]{
+                8,
+                10,
+                15,
+                20,
+                30,
+                50,
+                100};
 
-		for (int i : intervals) {
+        for (final int i : intervals) {
             cIntervals.addItem(i);
         }
-        cIntervals.setSelectedItem(10);
+        cIntervals.setSelectedItem(DEFAULT_INTERVAL);
 
         cAlgorithms = new JComboBox<>();
         cAlgorithms.setBorder(BorderFactory.createBevelBorder(1));
 
-        for (ESortingAlgorithm algorithm : ESortingAlgorithm.values()) {
+        for (final ESortingAlgorithm algorithm : ESortingAlgorithm.values()) {
             cAlgorithms.addItem(algorithm.name);
         }
 
@@ -132,12 +136,8 @@ class MyMenu extends JPanel {
     }
 
     int getBarWidth() {
-		final Object selectedDensity = cNumberOfBars.getSelectedItem();
-		if (selectedDensity == null) {
-			return 5;
-		}
-
-        switch (selectedDensity.toString()) {
+        final Object selectedDensity = cNumberOfBars.getSelectedItem();
+        switch (selectedDensity == null ? DEFAULT_BAR_WIDTH : selectedDensity.toString()) {
             case "Very Low":
                 return 20;
 
@@ -154,7 +154,8 @@ class MyMenu extends JPanel {
                 return 3;
         }
 
-		return 5;
+        // Should never reach this return
+        return 10;
     }
 
     int getInterval() {
@@ -164,9 +165,9 @@ class MyMenu extends JPanel {
     ESortingAlgorithm getSelectedAlgorithm() {
         final Object algorithmName = cAlgorithms.getSelectedItem();
         if (algorithmName == null) {
-            return ESortingAlgorithm.SelectionSort;
+            return DEFAULT_ALGORITHM;
         }
 
-        return Arrays.stream(ESortingAlgorithm.values()).filter(sortingAlgorithm -> sortingAlgorithm.name.equals(algorithmName.toString())).findFirst().orElse(ESortingAlgorithm.SelectionSort);
+        return Arrays.stream(ESortingAlgorithm.values()).filter(sortingAlgorithm -> sortingAlgorithm.name.equals(algorithmName.toString())).findFirst().orElse(DEFAULT_ALGORITHM);
     }
 }
