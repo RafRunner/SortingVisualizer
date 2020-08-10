@@ -9,8 +9,9 @@ import java.util.List;
 public class MergeSortHelper {
 
     public static void mergeSort(final int[] array, final int start, final int end, final List<ArrayOperation> operations) {
-        if (end - start < 1)
+        if (end - start < 1) {
             return;
+        }
 
         int middle = (end + start) / 2;
 

@@ -3,7 +3,6 @@ package domain.helpers;
 
 import domain.ArrayOperation;
 import domain.CompareElements;
-import domain.SwapElements;
 
 import java.util.List;
 
@@ -26,20 +25,12 @@ public class QuickSortHelper {
 
             operations.add(new CompareElements(j, high));
             if (array[j] <= pivot) {
-
                 i++;
-
-                operations.add(new SwapElements(i, j));
-                int temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+                ArrayHelper.swap(array, operations, i, j);
             }
         }
 
-        operations.add(new SwapElements(i + 1, high));
-        int temp = array[i + 1];
-        array[i + 1] = array[high];
-        array[high] = temp;
+        ArrayHelper.swap(array, operations, i + 1, high);
 
         return i + 1;
     }

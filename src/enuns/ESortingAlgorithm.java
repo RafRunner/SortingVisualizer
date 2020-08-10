@@ -1,44 +1,27 @@
 package enuns;
 
 import domain.*;
-import domain.helpers.HeapSortHelper;
-import domain.helpers.MergeSortHelper;
-import domain.helpers.QuickSortHelper;
-import domain.helpers.RadixSortHelper;
+import domain.helpers.*;
 import interfaces.SortingSolution;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public enum ESortingAlgorithm {
 
-    SelectionSort("Selection Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
-
+    SelectionSort("Selection Sort", (array, operations) -> {
         for (int i = 0; i < array.length - 1; i++) {
             int minIndex = i;
 
             for (int j = i + 1; j < array.length; j++) {
                 operations.add(new CompareElements(j, minIndex));
-
                 if (array[j] < array[minIndex])
                     minIndex = j;
             }
 
-            operations.add(new SwapElements(i, minIndex));
-
-            int temp = array[minIndex];
-            array[minIndex] = array[i];
-            array[i] = temp;
+            ArrayHelper.swap(array, operations, i, minIndex);
         }
-
-        return operations;
     }),
 
-    BubbleSort("Bubble Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
-
-        int i, j, temp;
+    BubbleSort("Bubble Sort", (array, operations) -> {
+        int i, j;
         boolean swapped;
 
         for (i = 0; i < array.length - 1; i++) {
@@ -46,13 +29,8 @@ public enum ESortingAlgorithm {
 
             for (j = 0; j < array.length - i - 1; j++) {
                 operations.add(new CompareElements(j, j + 1));
-
                 if (array[j] > array[j + 1]) {
-
-                    operations.add(new SwapElements(j, j + 1));
-                    temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
+                    ArrayHelper.swap(array, operations, j, j + 1);
                     swapped = true;
                 }
             }
@@ -61,13 +39,86 @@ public enum ESortingAlgorithm {
                 break;
             }
         }
-
-        return operations;
     }),
 
-    InsertionSort("Insertion Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
+    CocktailSort("Cocktail Sort", (array, operations) -> {
+        int i, j;
+        boolean swapped;
 
+        for (i = 0; i < array.length / 2; i++) {
+            swapped = false;
+
+            for (j = i; j < array.length - i - 1; j++) {
+                operations.add(new CompareElements(j, j + 1));
+                if (array[j] > array[j + 1]) {
+                    ArrayHelper.swap(array, operations, j, j + 1);
+                    swapped = true;
+                }
+            }
+
+            for (j = array.length - 1 - i; j > i; j--) {
+
+                operations.add(new CompareElements(j, j - 1));
+                if (array[j] < array[j - 1]) {
+                    ArrayHelper.swap(array, operations, j, j - 1);
+                    swapped = true;
+                }
+            }
+
+            if (!swapped) {
+                break;
+            }
+        }
+    }),
+
+    OddevenSort("Odd-Even Sort", (array, operations) -> {
+        boolean sorted = false;
+        while (!sorted) {
+            sorted = true;
+
+            for (int i = 1; i < array.length - 1; i += 2) {
+
+                operations.add(new CompareElements(i, i + 1));
+                if (array[i] > array[i + 1]) {
+                    ArrayHelper.swap(array, operations, i, i + 1);
+                    sorted = false;
+                }
+            }
+
+            for (int i = 0; i < array.length - 1; i += 2) {
+
+                operations.add(new CompareElements(i, i + 1));
+                if (array[i] > array[i + 1]) {
+                    ArrayHelper.swap(array, operations, i, i + 1);
+                    sorted = false;
+                }
+            }
+        }
+    }),
+
+    ComboSort("Combo Sort", ((array, operations) -> {
+        int gap = array.length;
+        boolean swapped = true;
+
+        while (gap > 1 || swapped) {
+            if (gap > 1) {
+                gap = (int) (gap / 1.247330950103979);
+            }
+            int i = 0;
+            swapped = false;
+            while (i + gap < array.length) {
+
+                operations.add(new CompareElements(i, i + gap));
+                if (array[i] > (array[i + gap])) {
+                    ArrayHelper.swap(array, operations, i, i + gap);
+                    swapped = true;
+                }
+                i++;
+            }
+        }
+    })),
+
+    InsertionSort("Insertion Sort", (array, operations) -> {
         int n = array.length;
         for (int i = 1; i < n; ++i) {
 
@@ -83,58 +134,9 @@ public enum ESortingAlgorithm {
             }
             array[j + 1] = key;
         }
-
-        return operations;
     }),
 
-    MergeSort("Merge Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
-        MergeSortHelper.mergeSort(array, 0, array.length - 1, operations);
-        return operations;
-    }),
-
-    QuickSort("Quick Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
-        QuickSortHelper.quickSort(array, 0, array.length - 1, operations);
-        return operations;
-    }),
-
-    HeapSort("Heap Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
-
-        final int n = array.length;
-
-        for (int i = n / 2 - 1; i >= 0; i--)
-            HeapSortHelper.heapify(array, n, i, operations);
-
-        for (int i = n - 1; i >= 0; i--) {
-            operations.add(new SwapElements(0, i));
-
-            int temp = array[0];
-            array[0] = array[i];
-            array[i] = temp;
-
-            HeapSortHelper.heapify(array, i, 0, operations);
-        }
-
-        return operations;
-    }),
-
-    RadixSort("Radix Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
-
-        int max = RadixSortHelper.getMax(array, operations);
-
-        for (int exp = 1; max / exp > 0; exp *= 10) {
-            RadixSortHelper.countSort(array, exp, operations);
-        }
-
-        return operations;
-    }),
-
-    ShellSort("Shell Sort", array -> {
-        final List<ArrayOperation> operations = new ArrayList<>();
-
+    ShellSort("Shell Sort", (array, operations) -> {
         final int n = array.length;
 
         for (int gap = n / 2; gap > 0; gap /= 2) {
@@ -144,6 +146,7 @@ public enum ESortingAlgorithm {
 
                 int j;
                 for (j = i; j >= gap; j -= gap) {
+
                     operations.add(new CompareElements(i, j - gap));
                     if (array[j - gap] < temp)
                         break;
@@ -155,8 +158,35 @@ public enum ESortingAlgorithm {
                 array[j] = temp;
             }
         }
+    }),
 
-        return operations;
+    MergeSort("Merge Sort", (array, operations) -> {
+        MergeSortHelper.mergeSort(array, 0, array.length - 1, operations);
+    }),
+
+    QuickSort("Quick Sort", (array, operations) -> {
+        QuickSortHelper.quickSort(array, 0, array.length - 1, operations);
+    }),
+
+    HeapSort("Heap Sort", (array, operations) -> {
+        final int n = array.length;
+
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            HeapSortHelper.heapify(array, n, i, operations);
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            ArrayHelper.swap(array, operations, 0, i);
+            HeapSortHelper.heapify(array, i, 0, operations);
+        }
+    }),
+
+    RadixSort("Radix Sort", (array, operations) -> {
+        int max = RadixSortHelper.getMax(array, operations);
+
+        for (int exp = 1; max / exp > 0; exp *= 10) {
+            RadixSortHelper.countSort(array, exp, operations);
+        }
     });
 
     public String name;

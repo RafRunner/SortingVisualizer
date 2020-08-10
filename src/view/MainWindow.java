@@ -7,6 +7,7 @@ import enuns.ESortingAlgorithm;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class MainWindow implements ActionListener {
 
     public MainWindow() {
         window = new JFrame();
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("Sorting Visualiser");
         window.setLocation(200, 100);
         window.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -70,11 +71,12 @@ public class MainWindow implements ActionListener {
 
                     Thread.sleep(500);
 
-                    final List<ArrayOperation> operations = selectedAlgotiyhm.sortingSolution.getSortingSteps(arrayDrawerPanel.getArrayCopy());
-                    arrayDrawerPanel.performOperations(operations, menu.getInterval());
+                    final List<ArrayOperation> solvingOperations = new ArrayList<>();
+                    selectedAlgotiyhm.sortingSolution.getSortingSteps(arrayDrawerPanel.getArrayCopy(), solvingOperations);
+                    arrayDrawerPanel.performOperations(solvingOperations, menu.getInterval());
                     arrayDrawerPanel.finish();
 
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     System.out.println(e.getMessage());
 
                 } finally {

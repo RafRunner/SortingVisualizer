@@ -2,7 +2,6 @@ package domain.helpers;
 
 import domain.ArrayOperation;
 import domain.CompareElements;
-import domain.SwapElements;
 
 import java.util.List;
 
@@ -22,12 +21,7 @@ public class HeapSortHelper {
             largest = r;
 
         if (largest != i) {
-            operations.add(new SwapElements(i, largest));
-
-            int swap = array[i];
-            array[i] = array[largest];
-            array[largest] = swap;
-
+            ArrayHelper.swap(array, operations, i, largest);
             heapify(array, n, largest, operations);
         }
     }

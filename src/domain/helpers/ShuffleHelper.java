@@ -1,7 +1,6 @@
 package domain.helpers;
 
 import domain.ArrayOperation;
-import domain.SwapElements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +10,11 @@ public class ShuffleHelper {
 
     public static List<ArrayOperation> shuffle(final int[] array) {
         final List<ArrayOperation> operations = new ArrayList<>();
-
-        Random rng = new Random();
+        final Random rng = new Random();
 
         for(int i = 0; i < array.length; i++) {
             int index = rng.nextInt(i + 1);
-
-            operations.add(new SwapElements(i, index));
-
-            int aux = array[index];
-            array[index] = array[i];
-            array[i] = aux;
+            ArrayHelper.swap(array, operations, i, index);
         }
         
         return operations;
