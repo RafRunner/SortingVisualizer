@@ -45,6 +45,10 @@ public class ArrayDrawer extends JPanel {
         return array.clone();
     }
 
+    int getArraySize() {
+        return array.length;
+    }
+
     void setBarWidth(final int barWidth) {
         this.barWidth = barWidth;
         numberOfBars = width / barWidth;
