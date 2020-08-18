@@ -19,9 +19,9 @@ public class MainWindow implements ActionListener {
     private static final Color BAR_COLOR = Color.WHITE;
     private static final int MARGIN = 50;
 
-    private JFrame window;
-    private ArrayDrawer arrayDrawerPanel;
-    private MyMenu menu;
+    private final JFrame window;
+    private final ArrayDrawer arrayDrawerPanel;
+    private final MyMenu menu;
 
     public MainWindow() {
         window = new JFrame();

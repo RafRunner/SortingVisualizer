@@ -160,13 +160,11 @@ public enum ESortingAlgorithm {
         }
     }),
 
-    MergeSort("Merge Sort", (array, operations) -> {
-        MergeSortHelper.mergeSort(array, 0, array.length - 1, operations);
-    }),
+    MergeSort("Merge Sort", (array, operations) -> MergeSortHelper.mergeSort(array, 0, array.length - 1, operations)),
 
-    QuickSort("Quick Sort", (array, operations) -> {
-        QuickSortHelper.quickSort(array, 0, array.length - 1, operations);
-    }),
+    QuickSort("Quick Sort", (array, operations) -> QuickSortHelper.quickSort(array, 0, array.length - 1, operations)),
+
+    DualPivotQuickSort("Dual Pivot Quick Sort", (array, operations) -> DualPivotQuickSortHelper.dualPivotQuickSort(array, 0, array.length - 1, operations)),
 
     HeapSort("Heap Sort", (array, operations) -> {
         final int n = array.length;
@@ -187,7 +185,9 @@ public enum ESortingAlgorithm {
         for (int exp = 1; max / exp > 0; exp *= 10) {
             RadixSortHelper.countSort(array, exp, operations);
         }
-    });
+    }),
+
+    CycleSort("Cycle Sort", (CycleSortHelper::cycleSort));
 
     public String name;
     public SortingSolution sortingSolution;

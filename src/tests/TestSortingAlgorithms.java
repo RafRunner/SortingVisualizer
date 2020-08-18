@@ -4,8 +4,7 @@ import domain.ArrayOperation;
 import domain.helpers.ShuffleHelper;
 import enuns.ESortingAlgorithm;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 public class TestSortingAlgorithms {
 
@@ -30,22 +29,27 @@ public class TestSortingAlgorithms {
     }
 
     private static void run(final ListFactory listFactory) {
-        final int[] arraySizesToTest = {2, 10, 50, 100, 1000, 2000};
+        final int[] arraySizesToTest = {2, 3, 10, 50, 100, 200, 350, 500, 1000};
 
-        for (final int size : arraySizesToTest) {
-
+        for (int i = 0; i < 10; i++) {
             for (final ESortingAlgorithm sortingAlgorithm : ESortingAlgorithm.values()) {
 
-                final List<ArrayOperation> operations = listFactory.getList();
-                final int[] randomArray = getRandomArray(size);
+                System.out.print(sortingAlgorithm.name + ",");
+                for (final int size : arraySizesToTest) {
 
-                final long time = Benchmark.benchmark((args) -> sortingAlgorithm.sortingSolution.sort((int[]) args[0], (List<ArrayOperation>) args[1]), new Object[]{randomArray, operations});
+                    final List<ArrayOperation> operations = listFactory.getList();
+                    final int[] randomArray = getRandomArray(size);
 
-                if (!assertSortedArray(randomArray)) {
-                    System.out.println("Algorithm " + sortingAlgorithm.name + " failed to sort properly array of size " + size);
+                    final long time = Benchmark.score((args) -> sortingAlgorithm.sortingSolution.sort((int[]) args[0], (List<ArrayOperation>) args[1]), new Object[]{randomArray, operations});
+
+                    if (!assertSortedArray(randomArray)) {
+                        System.out.println("Algorithm " + sortingAlgorithm.name + " failed to sort properly array of size " + size);
+                    }
+                    System.out.print(time + ",");
                 }
-                System.out.println("Algorithm " + sortingAlgorithm.name + " took " + time + " ns sorting a array of size " + size);
+                System.out.println();
             }
+            System.out.println();
         }
     }
 
