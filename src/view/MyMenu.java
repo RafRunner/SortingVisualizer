@@ -91,8 +91,6 @@ class MyMenu extends JPanel {
         this.add(spaces[0], gb);
 
         gb.weightx = 0.3;
-        gb.weighty = 0.3;
-
         gb.weighty = 0.1;
 
         gb.gridx = i;
