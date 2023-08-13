@@ -65,19 +65,20 @@ public class MainWindow implements ActionListener {
                     arrayDrawerPanel.setBarWidth(menu.getBarWidth());
                     hideMenu();
 
-                    final ESortingAlgorithm selectedAlgotiyhm = menu.getSelectedAlgorithm();
+                    final ESortingAlgorithm selectedAlgorithm = menu.getSelectedAlgorithm();
                     final List<ArrayOperation> shuffleOperations = ShuffleHelper.shuffle(arrayDrawerPanel.getArrayCopy());
                     arrayDrawerPanel.performOperations(shuffleOperations, 8);
 
                     Thread.sleep(500);
 
                     final List<ArrayOperation> solvingOperations = new Vector<>(arrayDrawerPanel.getArraySize() * 10);
-                    selectedAlgotiyhm.sortingSolution.sort(arrayDrawerPanel.getArrayCopy(), solvingOperations);
+                    selectedAlgorithm.sortingSolution.sort(arrayDrawerPanel.getArrayCopy(), solvingOperations);
                     arrayDrawerPanel.performOperations(solvingOperations, menu.getInterval());
                     arrayDrawerPanel.finish();
 
                 } catch (final Exception e) {
                     System.out.println(e.getMessage());
+                    e.printStackTrace();
 
                 } finally {
                     showMenu();

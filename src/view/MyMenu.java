@@ -38,7 +38,8 @@ class MyMenu extends JPanel {
                 "Low",
                 "Moderate",
                 "High",
-                "Very High"};
+                "Very High"
+        };
 
         cNumberOfBars = new JComboBox<>(numberOfBars);
         cNumberOfBars.setBorder(BorderFactory.createBevelBorder(1));
@@ -54,7 +55,8 @@ class MyMenu extends JPanel {
                 20,
                 30,
                 50,
-                100};
+                100
+        };
 
         for (final int i : intervals) {
             cIntervals.addItem(i);
@@ -168,6 +170,9 @@ class MyMenu extends JPanel {
             return DEFAULT_ALGORITHM;
         }
 
-        return Arrays.stream(ESortingAlgorithm.values()).filter(sortingAlgorithm -> sortingAlgorithm.name.equals(algorithmName.toString())).findFirst().orElse(DEFAULT_ALGORITHM);
+        return Arrays.stream(ESortingAlgorithm.values())
+                .filter(sortingAlgorithm -> sortingAlgorithm.name.equals(algorithmName))
+                .findFirst()
+                .orElse(DEFAULT_ALGORITHM);
     }
 }

@@ -162,6 +162,8 @@ public enum ESortingAlgorithm {
 
     MergeSort("Merge Sort", (array, operations) -> MergeSortHelper.mergeSort(array, 0, array.length - 1, operations)),
 
+    TimSort("Tim Sort", TimSortHelper::timSort),
+
     QuickSort("Quick Sort", (array, operations) -> QuickSortHelper.quickSort(array, 0, array.length - 1, operations)),
 
     DualPivotQuickSort("Dual Pivot Quick Sort", (array, operations) -> DualPivotQuickSortHelper.dualPivotQuickSort(array, 0, array.length - 1, operations)),
@@ -187,10 +189,10 @@ public enum ESortingAlgorithm {
         }
     }),
 
-    CycleSort("Cycle Sort", (CycleSortHelper::cycleSort));
+    CycleSort("Cycle Sort", CycleSortHelper::cycleSort);
 
-    public String name;
-    public SortingSolution sortingSolution;
+    public final String name;
+    public final SortingSolution sortingSolution;
 
     ESortingAlgorithm(String name, final SortingSolution sortingSolution) {
         this.name = name;

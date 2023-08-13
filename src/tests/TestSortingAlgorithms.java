@@ -40,7 +40,10 @@ public class TestSortingAlgorithms {
                     final List<ArrayOperation> operations = listFactory.getList();
                     final int[] randomArray = getRandomArray(size);
 
-                    final long time = Benchmark.score((args) -> sortingAlgorithm.sortingSolution.sort((int[]) args[0], (List<ArrayOperation>) args[1]), new Object[]{randomArray, operations});
+                    final long time = Benchmark.score(
+                            (args) -> sortingAlgorithm.sortingSolution.sort((int[]) args[0], (List<ArrayOperation>) args[1]),
+                            new Object[]{randomArray, operations}
+                    );
 
                     if (!assertSortedArray(randomArray)) {
                         System.out.println("Algorithm " + sortingAlgorithm.name + " failed to sort properly array of size " + size);
